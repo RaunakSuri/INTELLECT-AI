@@ -4,4 +4,4 @@ const userRouter = Router();
 
 userRouter.post("/ask", getAnswer);
 
-export {userRouter};
+export { userRouter };

@@ -1,4 +1,4 @@
-import { interaction } from "../index.js";
+import { GoogleGenAI } from "@google/genai";
 
 const getAnswer = async (req, res) => {
   try {
@@ -7,13 +7,15 @@ const getAnswer = async (req, res) => {
     if (!prompt) {
       return res.status(400).json({
         success: false,
-        message: "Error occured : ",
+        message: "Error : Prompt is Undefined",
         error,
       });
     }
 
+    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
     const interaction = await ai.interactions.create({
-      model: "gemini-2.5-flash",
+      model: "gemini-3.5-flash",
       input: prompt,
     });
 
@@ -21,11 +23,13 @@ const getAnswer = async (req, res) => {
       success: true,
       answer: interaction.output_text,
     });
+
   } catch (error) {
     res.status(400).json({
       success: false,
-      message: "Error occured : ",
-      error,
+      message: `Error occured : ${error.message}`,
     });
   }
 };
+
+export { getAnswer };
